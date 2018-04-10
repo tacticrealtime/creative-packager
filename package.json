@@ -1,0 +1,15 @@
+{
+  "name": "creative-packager",
+  "version": "1.0.0",
+  "description": "Tiny utility for packaging creatives into .zip files before uploading to Tactic",
+  "bin": "./index.js",
+  "main": "index.js",
+  "author": "TACTIC™ Real-Time Marketing",
+  "license": "GPL-3.0-or-later",
+  "repository": "github:tacticrealtime/creative-packager",
+  "dependencies": {
+    "archiver": "^2.1.1",
+    "commander": "^2.15.1",
+    "globby": "^8.0.1"
+  }
+}
