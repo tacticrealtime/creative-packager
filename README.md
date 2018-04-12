@@ -23,4 +23,4 @@ This utility should be installed as dev dependency of creative.
 Just run `npm install --save-dev github:tacticrealtime/creative-packager` inside directory of creative.
 Then the following script can be added to package.json:
 `"zip": "./node_modules/creative-packager/index.js -n $npm_package_name -d"`
-After that you can package your creative by running `node run zip` command.
+After that you can package your creative by running `npm run zip` command.
