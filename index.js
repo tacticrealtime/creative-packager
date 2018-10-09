@@ -3,8 +3,14 @@
 
 const program = require('commander');
 
+const addGlob = (value, globs) => {
+	globs.push(value);
+	return globs;
+};
+
 program
 	.version(require('./package.json').version)
+	.option('-g, --globs [additional globs]', 'Additional patterns to include or exclude (optional)', addGlob, [])
 	.option('-n, --creative-name <name of creative>', 'Name of creative')
 	.option('-v, --creative-version [value]', 'Version of creative in any format (optional parameter)')
 	.option('-d, --add-date', 'Add current date to .zip name')
@@ -16,15 +22,16 @@ const path = require('path');
 const globby = require('globby');
 const archive = archiver('zip');
 
-const packageZip = (creativeName, version = undefined, addDate = false) => {
+const packageZip = (creativeName, version = undefined, addDate = false, globs) => {
 	const zipName = creativeName + (version ? '-' + version : '') + (addDate ? '-' + new Date().toISOString().substring(0, 10) : '') + '.zip';
 
 	const output  = fs.createWriteStream(zipName);
 
 	archive.pipe(output);
 
-	const globs = ['**/*', '!**/node_modules', '!.*', '!*.zip'];
-	globby(globs).then(files => {
+	const defaultGlobs = ['**/*', '!**/node_modules', '!.*', '!*.zip'];
+
+	globby(defaultGlobs.concat(globs)).then(files => {
 		files.forEach(file => {
 			archive.file(file, {name: path.relative(process.cwd(), file)});
 		});
@@ -39,5 +46,5 @@ if (!program.creativeName) {
 	program.help();
 }
 else {
-	packageZip(program.creativeName, program.creativeVersion, program.addDate);
+	packageZip(program.creativeName, program.creativeVersion, program.addDate, program.globs);
 }
