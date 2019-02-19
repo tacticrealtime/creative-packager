@@ -29,7 +29,7 @@ const packageZip = (creativeName, version = undefined, addDate = false, globs) =
 
 	archive.pipe(output);
 
-	const defaultGlobs = ['**/*', '!**/node_modules', '!.*', '!*.zip', '!*.ai', '!*.psd'];
+	const defaultGlobs = ['**/*', '!**/node_modules', '!**/sources', '!.*', '!*.zip', '!*.ai', '!**/*.ai', '!*.psd', '!**/*.psd'];
 
 	globby(defaultGlobs.concat(globs)).then(files => {
 		files.forEach(file => {

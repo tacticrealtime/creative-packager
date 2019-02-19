@@ -1,6 +1,6 @@
 {
   "name": "creative-packager",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tiny utility for packaging creatives into .zip files before uploading to Tactic",
   "bin": "./index.js",
   "main": "index.js",
