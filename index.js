@@ -44,10 +44,15 @@
 	};
 
 	if (!program.creativeName || program.creativeName === "$npm_package_name") {  // $npm_package_name is suppoerted only in linux, so this is fallback for windows.
-		console.log('Default package name was used.');
-		program.creativeName = require("../../package.json").name
+		if (fs.existsSync("../../package.json")) {
+			program.creativeName = require("../../package.json").name
+			console.log('Name from package.json was used.');
+		} 
+		console.log("Package name not found.");
 	}
 
-	packageZip(program.creativeName, program.creativeVersion, program.addDate, program.globs);
+	if (program.creativeName) {
+		packageZip(program.creativeName, program.creativeVersion, program.addDate, program.globs);
+	}
 
 })();
