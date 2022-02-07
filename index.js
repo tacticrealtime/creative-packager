@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
+(async () => {
+	
 const program = require('commander');
 
 const addGlob = (value, globs) => {
@@ -19,7 +21,7 @@ program
 const fs = require('fs');
 const archiver = require('archiver');
 const path = require('path');
-const globby = require('globby');
+const { globby } = await import('globby');
 const archive = archiver('zip');
 
 const packageZip = (creativeName, version = undefined, addDate = false, globs) => {
@@ -41,10 +43,11 @@ const packageZip = (creativeName, version = undefined, addDate = false, globs) =
 
 };
 
-if (!program.creativeName) {
-	console.log('Please specify creative name parameter!');
-	program.help();
+if (!program.creativeName || program.creativeName === "$npm_package_name") {  // $npm_package_name is suppoerted only in linux, so this is fallback for windows.
+	console.log('Default package name was used.');
+	program.creativeName = require("../../package.json").name
 }
-else {
-	packageZip(program.creativeName, program.creativeVersion, program.addDate, program.globs);
-}
+
+packageZip(program.creativeName, program.creativeVersion, program.addDate, program.globs);
+
+})();
